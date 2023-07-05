@@ -6,27 +6,24 @@ enum planck_layers {
     _DVORAK,
     _NAVIGATE,
     _NUMBERS,
-    _ENCODER,
+    _MOUSE,
     _CONFIGURE,
+    _PLOVER,
     _MIDI,
     _MUSIC
 };
 
 enum planck_keycodes {
-    QWERTY = SAFE_RANGE,
-    ENC_ARRW,
-    ENC_SCRL,
-    ENC_BKLT,
-    ENC_BTN,
-    CAIRO
+    ENC_BTN = SAFE_RANGE
 };
 
-#define NAV_SPC LT(1,KC_SPC)    //NAVIGATE/SPACE BAR
-#define MACRO MO(1)             //MACRO RECORD
-#define NUM MO(2)               //NUMBERS
-#define ENC MO(3)               //ENCODER
-#define MIDI TO(5)              //MIDI
-#define MUSIC TO(6)             //INSTRUMENT
+#define NAV_SPC LT(1,KC_SPC)    // NAVIGATE/SPACE BAR
+#define MACRO MO(1)             // MACRO RECORD
+#define NUM MO(2)               // NUMBERS
+#define MOUSE MO(3)             // MOUSE
+#define PLVR TO(5)              // PLOVER
+#define MIDI TO(6)              // MIDI
+#define MUSIC TO(7)             // INSTRUMENT
 
 #define ALT_O LALT_T(KC_O)
 #define GUI_E LGUI_T(KC_E)
@@ -44,14 +41,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |   ;  |   Q  |   J  |   K  |   X  |   B  |   M  |   W  |   V  |   Z  |  M2  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |MUSIC | MIDI |      |ENCODR| SHFT |NAVSPC|NUMBER| MPRV |PLY/PS| MNXT | MREC |
+ * |      |MUSIC | MIDI |PLOVER| MOUSE| RSHFT|NAVSPC|NUMBER|      |      |      | MREC |
  * `-----------------------------------------------------------------------------------'
  */
 [_DVORAK] = LAYOUT_planck_grid(
-    _______,  KC_QUOT,  KC_COMM, KC_DOT,  KC_P,  KC_Y,    KC_F,    KC_G,  KC_C,    KC_R,    KC_L,    CAIRO,
+    _______,  KC_QUOT,  KC_COMM, KC_DOT,  KC_P,  KC_Y,    KC_F,    KC_G,  KC_C,    KC_R,    KC_L,    ENC_BTN,
     _______,  KC_A,     ALT_O,   GUI_E,   CTL_U, KC_I,    KC_D,    KC_H,  KC_T,    KC_N,    KC_S,    DM_PLY1,
     _______,  KC_SCLN,  KC_Q,    KC_J,    KC_K,  KC_X,    KC_B,    KC_M,  KC_W,    KC_V,    KC_Z,    DM_PLY2,
-    _______,  MUSIC,    MIDI,    _______, ENC,   KC_RSFT, NAV_SPC, NUM,   KC_MPRV, KC_MPLY, KC_MNXT, MACRO
+    _______,  MUSIC,    MIDI,    PLVR,    MOUSE, KC_RSFT, NAV_SPC, NUM,   _______, _______, _______, MACRO
 ),
 
 
@@ -67,10 +64,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_NAVIGATE] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______, _______, _______, KC_WBAK, LTAB,    NTAB,    KC_WFWD, _______,
+    _______, _______, _______, _______, _______, _______, _______, KC_WBAK, LTAB,    NTAB,    KC_WFWD, ENC_BTN,
     _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, DM_REC1,
     _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  DM_REC2,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______, KC_MSTP, KC_MPRV, KC_MPLY, KC_MNXT, _______
 ),
 
 /* NUMBER
@@ -85,28 +82,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_NUMBERS] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_7,    KC_8,    KC_9,    _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_7,    KC_8,    KC_9,    ENC_BTN,
     _______, _______, _______, _______, _______, _______, _______, KC_0,    KC_4,    KC_5,    KC_6,    _______,
     _______, _______, _______, _______, _______, _______, _______, _______, KC_1,    KC_2,    KC_3,    _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
-/* ENCODER
+/* MOUSE
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |      | BTN2 | BTN3 | BTN1 |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_ENCODER] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, ENC_BTN,
-    _______, _______, ENC_ARRW, ENC_SCRL, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______
+[_MOUSE] = LAYOUT_planck_grid(
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, ENC_BTN,
+    _______, KC_BTN2, KC_BTN3, KC_BTN1, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
 /* CONFIGURE
@@ -121,10 +118,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_CONFIGURE] = LAYOUT_planck_grid(
-    EE_CLR,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, ENC_BKLT,
+    EE_CLR,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, ENC_BTN,
     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+),
+
+/* Plover layer (http://opensteno.org)
+ * ,-----------------------------------------------------------------------------------.
+ * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |   S  |   T  |   P  |   H  |   *  |   *  |   F  |   P  |   L  |   T  |   D  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |   S  |   K  |   W  |   R  |   *  |   *  |   R  |   B  |   G  |   S  |   Z  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Exit |      |      |   A  |   O  |             |   E  |   U  |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_PLOVER] = LAYOUT_planck_grid(
+    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    ENC_BTN,
+    XXXXXXX, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,
+    XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+    TO(0),   XXXXXXX, XXXXXXX, XXXXXXX, KC_C,    KC_V,    KC_N,    KC_M,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
 /* MIDI
@@ -157,7 +172,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_MUSIC] = LAYOUT_planck_grid(
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ENC_BTN,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     TO(0),   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
@@ -194,48 +209,33 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             music_off();
             break;
     }
-    return update_tri_layer_state(state, _NUMBERS, _ENCODER, _CONFIGURE);
+    return update_tri_layer_state(state, _NUMBERS, _MOUSE, _CONFIGURE);
 }
-
-typedef enum {
-    ENCODER_MODE_VOLUME,
-    ENCODER_MODE_ARROW,
-    ENCODER_MODE_SCROLL,
-    ENCODER_MODE_BACKLIGHT
-} encoder_mode_t;
-
-encoder_mode_t encoder_mode = ENCODER_MODE_VOLUME;
-
-int midi_octave = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case ENC_ARRW:
+        case ENC_BTN:
             if (record->event.pressed) {
-                encoder_mode = ENCODER_MODE_ARROW;
-            } else {
-                encoder_mode = ENCODER_MODE_VOLUME;
-            }
-            break;
-        case ENC_SCRL:
-            if (record->event.pressed) {
-                encoder_mode = ENCODER_MODE_SCROLL;
-            } else {
-                encoder_mode = ENCODER_MODE_VOLUME;
-            }
-            break;
-        case ENC_BKLT:
-            if (record->event.pressed) {
-                if (encoder_mode == ENCODER_MODE_VOLUME) {
-                    encoder_mode = ENCODER_MODE_BACKLIGHT;
-                } else {
-                    encoder_mode = ENCODER_MODE_VOLUME;
+                // Handle the custom behavior of ENC_BTN depending on the active layer
+                layer_state_t layer = layer_state | default_layer_state;
+                uint8_t layer_number = biton32(layer);
+                switch (layer_number) {
+                    case _DVORAK:
+                        // Code to execute if the _DVORAK layer is active
+                        break;
+                    case _NAVIGATE:
+                        // Code to execute if the _NAVIGATE layer is active
+                        break;
+                    case _NUMBERS:
+                        // Code to execute if the _NUMBERS layer is active
+                        break;
+                    // Add more cases for each of your layers
                 }
             }
-            break;
-
+            return false; // Skip all further processing of this key
+        default:
+            return true; // Process all other keycodes normally
     }
-    return true;
 }
 
 void leader_end_user(void) {
@@ -247,35 +247,56 @@ void leader_end_user(void) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    switch (encoder_mode) {
-        case ENCODER_MODE_VOLUME:
+    switch (get_highest_layer(layer_state)) {
+        case _DVORAK:
+            // Perform action when the DVORAK layer is active
             if (clockwise) {
-                tap_code16(KC_VOLU);
+                tap_code(KC_VOLU);
             } else {
-                tap_code16(KC_VOLD);
+                tap_code(KC_VOLD);
             }
             break;
-        case ENCODER_MODE_ARROW:
+        case _NAVIGATE:
+            // Perform action when the NAVIGATE layer is active
             if (clockwise) {
-                tap_code16(KC_RGHT);
+                tap_code(KC_DOWN);
             } else {
-                tap_code16(KC_LEFT);
+                tap_code(KC_UP);
             }
             break;
-        case ENCODER_MODE_SCROLL:
+        case _NUMBERS:
+            // Perform action when the NUMBERS layer is active
             if (clockwise) {
-                tap_code16(KC_WH_D);
+                tap_code(KC_PGDN);
             } else {
-                tap_code16(KC_WH_U);
+                tap_code(KC_PGUP);
             }
             break;
-        case ENCODER_MODE_BACKLIGHT:
+        case _MOUSE:
+            // Perform action when the MOUSE layer is active
+            if (clockwise) {
+                tap_code(KC_MS_WH_DOWN);
+            } else {
+                tap_code(KC_MS_WH_UP);
+            }
+            break;
+        case _CONFIGURE:
             if (clockwise) {
                 rgblight_increase_hue();
             } else {
                 rgblight_decrease_hue();
             }
             break;
+        // ... add more cases for your other layers
+        default:
+            // Default case if no other layer matches
+            if (clockwise) {
+                tap_code(KC_VOLU);
+            } else {
+                tap_code(KC_VOLD);
+            }
+            break;
     }
     return false;
 }
+
