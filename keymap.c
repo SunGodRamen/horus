@@ -246,7 +246,39 @@ void leader_end_user(void) {
     }
 }
 
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    // data[0] is the command identifier
+    switch (data[0]) {
+        case 0x01:
+            // Command 0x01 - Toggle RGB lighting
+            rgblight_toggle();
+            break;
+        case 0x02:
+            // Command 0x02 - Set RGB mode
+            // data[1] is used as the parameter to set the mode
+            rgblight_mode(data[1]);
+            break;
+        case 0x03:
+            // Command 0x03 - Set RGB Hue
+            // data[1] is used as the parameter to set the hue
+            rgblight_sethsv(data[1], rgblight_get_val(), rgblight_get_sat());
+            break;
+        case 0x04:
+            // Command 0x04 - Set RGB Saturation
+            // data[1] is used as the parameter to set the saturation
+            rgblight_sethsv(rgblight_get_hue(), data[1], rgblight_get_val());
+            break;
+        case 0x05:
+            // Command 0x05 - Set RGB Brightness
+            // data[1] is used as the parameter to set the brightness
+            rgblight_sethsv(rgblight_get_hue(), rgblight_get_sat(), data[1]);
+            break;
+        // Add more cases for different commands
+    }
+}
+
 bool encoder_update_user(uint8_t index, bool clockwise) {
+    uint8_t mods = keyboard_report->mods;
     switch (get_highest_layer(layer_state)) {
         case _DVORAK:
             // Perform action when the DVORAK layer is active
@@ -281,21 +313,20 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             }
             break;
         case _CONFIGURE:
-            if (keyboard_report->mods & MOD_BIT(KC_LSFT)){
-               if (clockwise) {
+            if (mods & MOD_BIT(KC_LSFT)) {
+                if (clockwise) {
                     rgblight_step();
                 } else {
                     rgblight_step_reverse();
                 }
-                break;
             } else {
                 if (clockwise) {
                     rgblight_increase_hue();
                 } else {
                     rgblight_decrease_hue();
                 }
-                break;
             }
+            break;
         // ... add more cases for your other layers
         default:
             // Default case if no other layer matches
