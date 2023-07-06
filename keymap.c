@@ -45,10 +45,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_DVORAK] = LAYOUT_planck_grid(
-    _______,  KC_QUOT,  KC_COMM, KC_DOT,  KC_P,  KC_Y,    KC_F,    KC_G,  KC_C,    KC_R,    KC_L,    ENC_BTN,
-    _______,  KC_A,     ALT_O,   GUI_E,   CTL_U, KC_I,    KC_D,    KC_H,  KC_T,    KC_N,    KC_S,    DM_PLY1,
-    _______,  KC_SCLN,  KC_Q,    KC_J,    KC_K,  KC_X,    KC_B,    KC_M,  KC_W,    KC_V,    KC_Z,    DM_PLY2,
-    _______,  MUSIC,    MIDI,    PLVR,    MOUSE, KC_RSFT, NAV_SPC, NUM,   _______, _______, _______, MACRO
+    PB_1,  KC_QUOT,  KC_COMM, KC_DOT,  KC_P,  KC_Y,    KC_F,    KC_G,  KC_C,    KC_R,    KC_L,    ENC_BTN,
+    PB_2,  KC_A,     ALT_O,   GUI_E,   CTL_U, KC_I,    KC_D,    KC_H,  KC_T,    KC_N,    KC_S,    DM_PLY1,
+    PB_3,  KC_SCLN,  KC_Q,    KC_J,    KC_K,  KC_X,    KC_B,    KC_M,  KC_W,    KC_V,    KC_Z,    DM_PLY2,
+    PB_4,  MUSIC,    MIDI,    PLVR,    MOUSE, KC_LSFT, NAV_SPC, NUM,   _______, _______, _______, MACRO
 ),
 
 
@@ -281,12 +281,21 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             }
             break;
         case _CONFIGURE:
-            if (clockwise) {
-                rgblight_increase_hue();
+            if (keyboard_report->mods & MOD_BIT(KC_LSFT)){
+               if (clockwise) {
+                    rgblight_step();
+                } else {
+                    rgblight_step_reverse();
+                }
+                break;
             } else {
-                rgblight_decrease_hue();
+                if (clockwise) {
+                    rgblight_increase_hue();
+                } else {
+                    rgblight_decrease_hue();
+                }
+                break;
             }
-            break;
         // ... add more cases for your other layers
         default:
             // Default case if no other layer matches

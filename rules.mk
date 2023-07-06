@@ -6,3 +6,4 @@ COMBO_ENABLE = yes
 VPATH += keyboards/gboards
 
 MOUSEKEY_ENABLE = yes
+PROGRAMMABLE_BUTTON_ENABLE = yes

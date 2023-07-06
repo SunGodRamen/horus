@@ -1,5 +1,7 @@
 #pragma once
 
+#define RGBLIGHT_EFFECT_BREATHING
+
 #define MIDI_ADVANCED
 
 #define USB_POLLING_INTERVAL_MS 1
