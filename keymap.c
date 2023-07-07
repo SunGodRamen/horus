@@ -278,7 +278,6 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    uint8_t mods = keyboard_report->mods;
     switch (get_highest_layer(layer_state)) {
         case _DVORAK:
             // Perform action when the DVORAK layer is active
@@ -313,7 +312,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             }
             break;
         case _CONFIGURE:
-            if (mods & MOD_BIT(KC_LSFT)) {
+            if (get_mods() == MOD_BIT(KC_LSFT)) {
                 if (clockwise) {
                     rgblight_step();
                 } else {

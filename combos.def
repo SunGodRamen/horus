@@ -1,4 +1,4 @@
-COMB(CMB_LEAD,              QK_LEAD,            KC_RSFT, LT(1,KC_SPC))
+COMB(CMB_LEAD,              QK_LEAD,            KC_LSFT, LT(1,KC_SPC))
 COMB(CMB_RESET,             QK_BOOT,            KC_Y, KC_F)
 
 COMB(CMB_YANK,              LCTL(KC_C),         KC_A, LGUI_T(KC_E))
