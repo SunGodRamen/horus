@@ -28,8 +28,8 @@ enum planck_keycodes {
 #define ALT_O LALT_T(KC_O)
 #define GUI_E LGUI_T(KC_E)
 #define CTL_U LCTL_T(KC_U)
-#define LTAB LSFT(LCTL(KC_TAB))
-#define NTAB LCTL(KC_TAB)
+#define LTAB  LSFT(LCTL(KC_TAB))
+#define NTAB  LCTL(KC_TAB)
 
 /* clang-format off */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -198,6 +198,25 @@ float streets_of_cairo[][2] = {
     {NOTE_A3, 64},
 };
 
+float ecstacy_of_gold[][2] = {
+    {NOTE_A3, 32},
+    {NOTE_E4, 128},
+    {NOTE_G4, 64},
+    {NOTE_E4, 128},
+    S__NOTE(_REST),
+    {NOTE_A3, 64},
+    {NOTE_E4, 16},
+    {NOTE_D4, 32},
+    {NOTE_A3, 32},
+    {NOTE_A3, 64},
+    {NOTE_E4, 16},
+    {NOTE_D4, 32},
+    {NOTE_A3, 64},
+    {NOTE_A3, 64},
+    {NOTE_B3, 16},
+    {NOTE_A3, 64},
+};
+
 #endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -239,41 +258,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void leader_end_user(void) {
-    if (leader_sequence_one_key(KC_SPACE)) {
+    if (leader_sequence_one_key(KC_LSFT)) {
+        PLAY_SONG(ecstacy_of_gold);
+    } else if (leader_sequence_one_key(KC_SPACE)) {
         PLAY_SONG(streets_of_cairo);
     } else if (leader_sequence_two_keys(KC_E, KC_G)) {
         SEND_STRING("AVONS394@gmail.com");
     }
 }
 
+#include QMK_KEYBOARD_H // Make sure to include this if not already included in your keymap file.
+
 void raw_hid_receive(uint8_t *data, uint8_t length) {
     // data[0] is the command identifier
     switch (data[0]) {
         case 0x01:
-            // Command 0x01 - Toggle RGB lighting
-            rgblight_toggle();
+            // Command 0x01 - Play a predefined song
+            PLAY_SONG(streets_of_cairo);
             break;
         case 0x02:
-            // Command 0x02 - Set RGB mode
-            // data[1] is used as the parameter to set the mode
-            rgblight_mode(data[1]);
+            // Command 0x03 - Play a note for a duration (in 1/256th second units)
+            PLAY_SONG(ecstacy_of_gold);
             break;
-        case 0x03:
-            // Command 0x03 - Set RGB Hue
-            // data[1] is used as the parameter to set the hue
-            rgblight_sethsv(data[1], rgblight_get_val(), rgblight_get_sat());
-            break;
-        case 0x04:
-            // Command 0x04 - Set RGB Saturation
-            // data[1] is used as the parameter to set the saturation
-            rgblight_sethsv(rgblight_get_hue(), data[1], rgblight_get_val());
-            break;
-        case 0x05:
-            // Command 0x05 - Set RGB Brightness
-            // data[1] is used as the parameter to set the brightness
-            rgblight_sethsv(rgblight_get_hue(), rgblight_get_sat(), data[1]);
-            break;
-        // Add more cases for different commands
+        // Add more cases for different commands or songs
     }
 }
 
