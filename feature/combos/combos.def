@@ -17,5 +17,3 @@ COMB(CMB_BSLASH,            KC_BSLS,            LGUI_T(KC_E), KC_K)
 COMB(CMB_PIPE,              KC_PIPE,            KC_T, KC_C)
 COMB(CMB_MINS,              KC_MINS,            KC_W, KC_V)
 COMB(CMB_EQL,               KC_EQL,             KC_M, KC_V)
-
-COMB(NV_ENTR,               KC_ENT,             KC_HOME, KC_PGDN)
